@@ -1,7 +1,7 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.basictwitter;
 
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
+import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
@@ -21,24 +21,30 @@ import com.loopj.android.http.RequestParams;
  * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
  * 
  */
-public class RestClient extends OAuthBaseClient {
-    public static final Class<? extends Api> REST_API_CLASS = FlickrApi.class; // Change this
-    public static final String REST_URL = "http://api.flickr.com/services"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = "SOME_KEY";       // Change this
-    public static final String REST_CONSUMER_SECRET = "SOME_SECRET"; // Change this
-    public static final String REST_CALLBACK_URL = "oauth://cprest"; // Change this (here and in manifest)
+public class TwitterClient extends OAuthBaseClient {
+    public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class;
+    public static final String REST_URL = "https://api.twitter.com/1.1/";
+    public static final String REST_CONSUMER_KEY = "xDy17U1h0dsdGNysCMwafHELB";
+    public static final String REST_CONSUMER_SECRET = "VcNHmtyhA2JntdvPnC63hi9JgR5grgD2SXSnVzUpCUUxHPlXLk";
+    public static final String REST_CALLBACK_URL = "oauth://cpbasictweets"; 
     
-    public RestClient(Context context) {
+    public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
     
-    // CHANGE THIS
-    // DEFINE METHODS for different API endpoints here
-    public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-        // Can specify query string params directly or through RequestParams.
-        RequestParams params = new RequestParams();
-        params.put("format", "json");
+    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+    	getHomeTimeline(handler, null);
+    }
+    
+    public void getHomeTimeline(AsyncHttpResponseHandler handler, Long maxId) {
+        String apiUrl = getApiUrl("statuses/home_timeline.json");
+        RequestParams params = null;
+        
+        if (maxId != null) {
+        	params = new RequestParams();
+        	params.put("max_id", maxId.toString());
+        }
+        
         client.get(apiUrl, params, handler);
     }
     

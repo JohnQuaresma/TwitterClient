@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.basictwitter;
 
 import android.content.Context;
 
@@ -11,17 +11,17 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  * including the image cache in memory and on disk. This also adds a singleton
  * for accessing the relevant rest client.
  * 
- *     RestClient client = RestClientApp.getRestClient();
+ *     TwitterClient client = TwitterApplication.getRestClient();
  *     // use client to send requests to API
  *     
  */
-public class RestClientApp extends com.activeandroid.app.Application {
+public class TwitterApplication extends com.activeandroid.app.Application {
 	private static Context context;
 	
     @Override
     public void onCreate() {
         super.onCreate();
-        RestClientApp.context = this;
+        TwitterApplication.context = this;
         
         // Create global configuration and initialize ImageLoader with this configuration
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
@@ -32,7 +32,7 @@ public class RestClientApp extends com.activeandroid.app.Application {
         ImageLoader.getInstance().init(config);
     }
     
-    public static RestClient getRestClient() {
-    	return (RestClient) RestClient.getInstance(RestClient.class, RestClientApp.context);
+    public static TwitterClient getRestClient() {
+    	return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, TwitterApplication.context);
     }
 }

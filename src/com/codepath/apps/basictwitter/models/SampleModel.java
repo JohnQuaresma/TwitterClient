@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.models;
+package com.codepath.apps.basictwitter.models;
 
 import java.util.List;
 
@@ -16,11 +16,20 @@ import com.activeandroid.query.Select;
  * https://github.com/pardom/ActiveAndroid/wiki/Creating-your-database-model
  * 
  */
-@Table(name = "items")
+@Table(name = "tweets")
 public class SampleModel extends Model {
-	// Define table fields
-	@Column(name = "name")
-	private String name;
+	
+	@Column(name = "userId")
+	private String userId;
+	
+	@Column(name = "userHandle")
+	private String userHandle;
+	
+	@Column(name = "timestamp")
+	private String timestamp;
+	
+	@Column(name = "body")
+	private String body;
 	
 	public SampleModel() {
 		super();
@@ -31,17 +40,33 @@ public class SampleModel extends Model {
 		super();
 
 		try {
-			this.name = object.getString("title");
+			this.userId = object.getString("user_id");
+			this.userHandle = object.getString("user_username");
+			this.timestamp = object.getString("timestamp");
+			this.body = object.getString("body");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	// Getters
-	public String getName() {
-		return name;
-	}
 	
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public String getUserHandle() {
+		return userHandle;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
 	// Record Finders
 	public static SampleModel byId(long id) {
 	   return new Select().from(SampleModel.class).where("id = ?", id).executeSingle();
