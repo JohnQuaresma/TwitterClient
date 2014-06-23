@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -16,5 +16,18 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="TwitterTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/TwitterTheme.TwitterActionBar</item>
+    </style>
+
+    <style name="TwitterTheme.TwitterActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#55acee</item>
+        <item name="android:titleTextStyle">@style/TwitterTheme.ActionBar.TitleTextStyle</item>
+    </style>
+    
+    <style name="TwitterTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+		<item name="android:textColor">#fafafa</item>
+	</style>
 
 </resources>

@@ -11,5 +11,13 @@
     <string name="tv_name_label">Foo Bar</string>
     <string name="created_at_label">5m</string>
     <string name="tweet_body_label">This is tweet body</string>
+    <string name="compose_title">Compose</string>
+    <string name="title_activity_compose">Compose Tweet</string>
+    <string name="cancel">Cancel</string>
+    <string name="chars_140">140</string>
+    <string name="tweet">Tweet</string>
+    <string name="compose_name_label">Foo Bar</string>
+    <string name="compose_screen_name_label">\@foo</string>
+    <string name="status_placeholder">What\'s happening?</string>
 
 </resources>

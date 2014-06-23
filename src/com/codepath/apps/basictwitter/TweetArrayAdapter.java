@@ -32,8 +32,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	 
-		return relativeDate.replaceAll("([0-9]* [a-z])[a-z ]+", "$1");
+		/*Compensating for some weird difference between the android clock and GMT - it's literally seconds*/
+		return relativeDate.startsWith("in ") ? "now" : relativeDate.replaceAll("([0-9]* [a-z])[a-z ]+", "$1");
 	}
 	
 	public TweetArrayAdapter(Context context, List<Tweet> tweets) {
@@ -52,7 +52,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		}
 		
 		ImageView ivProfileImage = (ImageView) v.findViewById(R.id.ivProfileImage);
-		TextView tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+		TextView tvUserName = (TextView) v.findViewById(R.id.tvComposeUserName);
 		TextView tvUserScreenName = (TextView) v.findViewById(R.id.tvUserScreenName);
 		TextView tvBody = (TextView) v.findViewById(R.id.tvBody);
 		TextView tvCreatedAt = (TextView) v.findViewById(R.id.tvCreatedAt);

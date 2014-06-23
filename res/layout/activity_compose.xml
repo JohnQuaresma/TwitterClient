@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="${packageName}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/tvCancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/cancel"
+        android:textColor="@android:color/holo_blue_light"
+        android:onClick="onCancel"                
+        android:clickable="true" />
+
+    <TextView
+        android:id="@+id/tvTweetBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:onClick="onTweet"
+        android:text="@string/tweet"
+        android:textColor="#aaaaaa"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tvCharCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/tvTweetBtn"
+        android:text="@string/chars_140"
+        android:textColor="#aaaaaa" />
+
+    <View
+        android:id="@+id/vSpacer"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvCancelBtn"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#dddddd" />
+    
+    <ImageView
+        android:id="@+id/ivComposeUserProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCancelBtn"
+        android:layout_below="@+id/vSpacer"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvComposeUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivComposeUserProfileImage"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivComposeUserProfileImage"
+        android:text="@string/compose_name_label"
+        android:textSize="14sp"
+        android:includeFontPadding="false"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivComposeUserProfileImage"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ivComposeUserProfileImage"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:ems="10"
+        android:gravity="center_vertical|top"
+        android:hint="@string/status_placeholder"
+        android:inputType="textMultiLine"
+        android:textColorHint="#aaaaaa" />
+
+    <TextView
+        android:id="@+id/tvComposeUserScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvComposeUserName"
+        android:layout_below="@+id/tvComposeUserName"
+        android:text="@string/compose_screen_name_label"
+        android:includeFontPadding="false"
+        android:textColor="#aaaaaa"
+        android:textSize="12sp" />
+
+</RelativeLayout>
