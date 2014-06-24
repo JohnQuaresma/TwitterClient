@@ -25,3 +25,4 @@ Optional Stories Completed:
 
 Usage gif:
 
+![alt tag](https://raw.githubusercontent.com/JohnQuaresma/TwitterClient/master/tweetdemo.gif)
