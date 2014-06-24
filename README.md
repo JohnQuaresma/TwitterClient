@@ -19,6 +19,7 @@ Required User Stories Completed:
 
 Optional Stories Completed:
 
+* User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
 * Links in tweets are clickable and will launch the web browser 
 * User can see a counter with total number of characters left for tweet
 * Improved the user interface and theme the app to feel "twitter branded"
