@@ -26,6 +26,7 @@ public abstract class EndlessScrollListener implements OnScrollListener {
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		totalItemCount -= 1;
 		Log.d("DEBUG", String.format("Triggered onScroll. Page: %s. First visible: %s - Visible count: %s - Total count: %s", this.currentPage, firstVisibleItem, visibleItemCount, totalItemCount));
 		
 		if (totalItemCount < this.previousTotalItemCount) {

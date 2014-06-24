@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
 public class TimelineActivity extends Activity {
 	
@@ -26,18 +28,24 @@ public class TimelineActivity extends Activity {
 	private TwitterClient client;
 	private ArrayList<Tweet> tweets;
 	private ArrayAdapter<Tweet> aTweets;
-	private ListView lvTweets;
+	private PullToRefreshListView lvTweets;
 	private Tweet oldestTweet;
 	private Tweet newTweet;
 	private User currentUser;
 	
-	private JsonHttpResponseHandler getTimelineResponseHandler() {
+	private JsonHttpResponseHandler getTimelineResponseHandler(final boolean isRefresh) {
 		return new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int arg0, JSONArray jsonArray) {
 				ArrayList<Tweet> responseTweets = Tweet.fromJSONArray(jsonArray);
 				oldestTweet = responseTweets.get(responseTweets.size() - 1);
+				if (isRefresh) {
+					aTweets.clear();
+				}
 				aTweets.addAll(responseTweets);
+				if (isRefresh) {
+					lvTweets.onRefreshComplete();
+				}
 			}
 			
 			@Override
@@ -48,10 +56,17 @@ public class TimelineActivity extends Activity {
 		};
 	}
 	
-	private void initializeTimeline() {
-		client.getHomeTimeline(getTimelineResponseHandler());
+	private JsonHttpResponseHandler getTimelineResponseHandler() {
+		return getTimelineResponseHandler(false);
 	}
 	
+	private void initializeTimeline(boolean isRefresh) {
+		client.getHomeTimeline(getTimelineResponseHandler(isRefresh));
+	}
+	
+	private void initializeTimeline() {
+		initializeTimeline(false);
+	}
 	
 	private void loadMoreTweets() {
 		client.getHomeTimeline(getTimelineResponseHandler(), oldestTweet.getUid());
@@ -65,6 +80,15 @@ public class TimelineActivity extends Activity {
 	             loadMoreTweets();
 		    }
 	    });
+	}
+	
+	private void setupRefresh() {
+		lvTweets.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initializeTimeline(true);
+            }
+        });
 	}
 	
 	private void loadCurrentUser() {
@@ -87,10 +111,11 @@ public class TimelineActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		client = TwitterApplication.getRestClient();
-		lvTweets = (ListView)findViewById(R.id.lvTweets);
+		lvTweets = (eu.erikw.PullToRefreshListView) findViewById(R.id.lvTweets);
 		tweets = new ArrayList<Tweet>();
 		aTweets = new TweetArrayAdapter(this, tweets);
 		lvTweets.setAdapter(aTweets);
+		setupRefresh();
 		setupScrolling();
 		loadCurrentUser();
 		initializeTimeline();
