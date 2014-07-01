@@ -1,95 +1,33 @@
 package com.codepath.apps.basictwitter;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.codepath.apps.basictwitter.fragments.HomeTimelineFragment;
+import com.codepath.apps.basictwitter.fragments.MentionsTimelineFragment;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import eu.erikw.PullToRefreshListView;
-import eu.erikw.PullToRefreshListView.OnRefreshListener;
-
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends TweetListActivity {
 	
 	private static final int COMPOSE_REQUEST = 777;
-	public static final String USER_PARAM = "current_user";
 	public static final String TWEET_PARAM = "new_tweet";
-	private TwitterClient client;
-	private ArrayList<Tweet> tweets;
-	private ArrayAdapter<Tweet> aTweets;
-	private PullToRefreshListView lvTweets;
-	private Tweet oldestTweet;
-	private Tweet newTweet;
+	public static final String MENTIONS_TAG = "mentions";
+	public static final String HOME_TAG = "home";
+	private HomeTimelineFragment fragmentHomeTimeline;
 	private User currentUser;
-	
-	private JsonHttpResponseHandler getTimelineResponseHandler(final boolean isRefresh) {
-		return new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(int arg0, JSONArray jsonArray) {
-				ArrayList<Tweet> responseTweets = Tweet.fromJSONArray(jsonArray);
-				oldestTweet = responseTweets.get(responseTweets.size() - 1);
-				if (isRefresh) {
-					aTweets.clear();
-				}
-				aTweets.addAll(responseTweets);
-				if (isRefresh) {
-					lvTweets.onRefreshComplete();
-				}
-			}
-			
-			@Override
-			public void onFailure(Throwable e, String s) {
-				Log.d("DEBUG", e.toString());
-				Log.d("DEBUG", s.toString());
-			}
-		};
-	}
-	
-	private JsonHttpResponseHandler getTimelineResponseHandler() {
-		return getTimelineResponseHandler(false);
-	}
-	
-	private void initializeTimeline(boolean isRefresh) {
-		client.getHomeTimeline(getTimelineResponseHandler(isRefresh));
-	}
-	
-	private void initializeTimeline() {
-		initializeTimeline(false);
-	}
-	
-	private void loadMoreTweets() {
-		client.getHomeTimeline(getTimelineResponseHandler(), oldestTweet.getUid());
-	}
-	
-	private void setupScrolling() {
-		lvTweets.setOnScrollListener(new EndlessScrollListener() {
-		    @Override
-		    public void onLoadMore(int page, int totalItemsCount) {
-		    	 Log.d("DEBUG", String.format("page: %s - total count: %s.", page, totalItemsCount));
-	             loadMoreTweets();
-		    }
-	    });
-	}
-	
-	private void setupRefresh() {
-		lvTweets.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initializeTimeline(true);
-            }
-        });
-	}
+	private TwitterClient client;
 	
 	private void loadCurrentUser() {
 		client.getVerifyCredentials(new JsonHttpResponseHandler() {
@@ -105,20 +43,43 @@ public class TimelineActivity extends Activity {
 			}
 		});
 	}
+	
+	private void setupTabs() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+
+		Tab tabFirst = actionBar
+			.newTab()
+			.setText(R.string.timeline)
+			.setIcon(R.drawable.ic_home)
+			.setTabListener(
+				new SherlockTabListener<HomeTimelineFragment>(R.id.flContainer, this, HOME_TAG,
+						HomeTimelineFragment.class));
+
+		actionBar.addTab(tabFirst);
+		actionBar.selectTab(tabFirst);
+
+		Tab tabSecond = actionBar
+			.newTab()
+			.setText(R.string.mentions)
+			.setIcon(R.drawable.ic_mention)
+			.setTabListener(
+				new SherlockTabListener<MentionsTimelineFragment>(R.id.flContainer, this, MENTIONS_TAG,
+						MentionsTimelineFragment.class));
+
+		actionBar.addTab(tabSecond);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		client = TwitterApplication.getRestClient();
-		lvTweets = (eu.erikw.PullToRefreshListView) findViewById(R.id.lvTweets);
-		tweets = new ArrayList<Tweet>();
-		aTweets = new TweetArrayAdapter(this, tweets);
-		lvTweets.setAdapter(aTweets);
-		setupRefresh();
-		setupScrolling();
+		setupTabs();
+		fragmentHomeTimeline = (HomeTimelineFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG);
 		loadCurrentUser();
-		initializeTimeline();
 	}
 	
 	@Override
@@ -127,16 +88,14 @@ public class TimelineActivity extends Activity {
 			return;
 		}
 		if (requestCode == COMPOSE_REQUEST) {
-			newTweet = (Tweet) data.getSerializableExtra(TWEET_PARAM);
-			tweets.add(0, newTweet);
-			aTweets.notifyDataSetChanged();
-			lvTweets.setSelectionAfterHeaderView();
+			Tweet newTweet = (Tweet) data.getSerializableExtra(TWEET_PARAM);
+			fragmentHomeTimeline.addComposedTweet(newTweet);
 		}
 	}
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.compose, menu);
+		getSupportMenuInflater().inflate(R.menu.tweets, menu);
         return true;
     }
 	
@@ -147,5 +106,12 @@ public class TimelineActivity extends Activity {
 		Intent i = new Intent(this, ComposeActivity.class);
 		i.putExtra(USER_PARAM, currentUser);
 		startActivityForResult(i, COMPOSE_REQUEST);
+	}
+	
+	public void onProfile(MenuItem mi) {
+		if (currentUser == null) {
+			return;
+		}
+		openUserProfile(currentUser);
 	}
 }

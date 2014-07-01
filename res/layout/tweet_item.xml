@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:padding="10dp" >
 
-    <ImageView
+    <com.codepath.apps.basictwitter.RoundedImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher"/>
 
     <TextView
         android:id="@+id/tvComposeUserName"
@@ -26,17 +26,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvUserScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvComposeUserName"
-        android:text="@string/foo_label"
-        android:includeFontPadding="false"
-        android:textColor="#888888"
-        android:textSize="11sp" />
-
-    <TextView
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,11 +36,30 @@
         android:text="@string/tweet_body_label" />
 
     <TextView
+        android:id="@+id/tvUserScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvComposeUserName"
+        android:layout_alignBottom="@+id/tvComposeUserName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/tvCreatedAt"
+        android:layout_toRightOf="@+id/tvComposeUserName"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="@string/foo_label"
+        android:textColor="#888888"
+        android:textSize="10sp" />
+
+    <TextView
         android:id="@+id/tvCreatedAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvUserScreenName"
+        android:layout_alignBottom="@+id/tvUserScreenName"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_margin="0dp"
         android:text="@string/created_at_label"
         android:textColor="#888888"

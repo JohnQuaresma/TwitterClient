@@ -6,7 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_photos">Flickr Photos</string>
     <string name="login_label">Connect to Twitter</string>
-    <string name="title_activity_timeline">Latest Tweets</string>
+    <string name="title_activity_timeline"></string>
     <string name="foo_label">\@Foo</string>
     <string name="tv_name_label">Foo Bar</string>
     <string name="created_at_label">5m</string>
@@ -19,5 +19,12 @@
     <string name="compose_name_label">Foo Bar</string>
     <string name="compose_screen_name_label">\@foo</string>
     <string name="status_placeholder">What\'s happening?</string>
+    <string name="timeline">Timeline</string>
+    <string name="mentions">Mentions</string>
+    <string name="profile_title">Profile</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="tweets_label">TWEETS</string>
+    <string name="following_label">FOLLOWING</string>
+    <string name="followers_label">FOLLOWERS</string>
 
 </resources>
