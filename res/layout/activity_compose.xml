@@ -47,7 +47,7 @@
         android:layout_marginTop="10dp"
         android:background="#dddddd" />
     
-    <ImageView
+    <com.codepath.apps.basictwitter.RoundedImageView
         android:id="@+id/ivComposeUserProfileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

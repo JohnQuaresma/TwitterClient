@@ -28,6 +28,8 @@ public class TimelineActivity extends TweetListActivity {
 	private HomeTimelineFragment fragmentHomeTimeline;
 	private User currentUser;
 	private TwitterClient client;
+	private Tab homeTab;
+	private Tab mentionsTab;
 	
 	private void loadCurrentUser() {
 		client.getVerifyCredentials(new JsonHttpResponseHandler() {
@@ -50,7 +52,7 @@ public class TimelineActivity extends TweetListActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 
-		Tab tabFirst = actionBar
+		homeTab = actionBar
 			.newTab()
 			.setText(R.string.timeline)
 			.setIcon(R.drawable.ic_home)
@@ -58,10 +60,10 @@ public class TimelineActivity extends TweetListActivity {
 				new SherlockTabListener<HomeTimelineFragment>(R.id.flContainer, this, HOME_TAG,
 						HomeTimelineFragment.class));
 
-		actionBar.addTab(tabFirst);
-		actionBar.selectTab(tabFirst);
+		actionBar.addTab(homeTab);
+		actionBar.selectTab(homeTab);
 
-		Tab tabSecond = actionBar
+		mentionsTab = actionBar
 			.newTab()
 			.setText(R.string.mentions)
 			.setIcon(R.drawable.ic_mention)
@@ -69,7 +71,7 @@ public class TimelineActivity extends TweetListActivity {
 				new SherlockTabListener<MentionsTimelineFragment>(R.id.flContainer, this, MENTIONS_TAG,
 						MentionsTimelineFragment.class));
 
-		actionBar.addTab(tabSecond);
+		actionBar.addTab(mentionsTab);
 	}
 
 	@Override
@@ -78,7 +80,6 @@ public class TimelineActivity extends TweetListActivity {
 		setContentView(R.layout.activity_timeline);
 		client = TwitterApplication.getRestClient();
 		setupTabs();
-		fragmentHomeTimeline = (HomeTimelineFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG);
 		loadCurrentUser();
 	}
 	
@@ -89,7 +90,8 @@ public class TimelineActivity extends TweetListActivity {
 		}
 		if (requestCode == COMPOSE_REQUEST) {
 			Tweet newTweet = (Tweet) data.getSerializableExtra(TWEET_PARAM);
-			fragmentHomeTimeline.addComposedTweet(newTweet);
+			getSupportActionBar().selectTab(homeTab);
+			((HomeTimelineFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG)).addComposedTweet(newTweet);
 		}
 	}
 	

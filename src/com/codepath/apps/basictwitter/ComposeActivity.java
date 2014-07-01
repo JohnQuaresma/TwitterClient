@@ -26,11 +26,13 @@ public class ComposeActivity extends Activity {
 	private int charsLeft;
 	private TwitterClient client;
 	private User currentUser;
+	private User replyUser;
+	private Tweet replyTweet;
 	private TextView tvTweetBtn;
 	private TextView tvCharCount;
 	private TextView tvUserName;
 	private TextView tvUserScreenName;
-	private ImageView ivUserProfileImage;
+	private RoundedImageView ivUserProfileImage;
 	private EditText etStatus;
 	private boolean canTweet;
 
@@ -100,11 +102,13 @@ public class ComposeActivity extends Activity {
 		canTweet = false;
 		client = TwitterApplication.getRestClient();
 		currentUser = (User) getIntent().getSerializableExtra(TimelineActivity.USER_PARAM);
+		replyUser = (User) getIntent().getSerializableExtra(TimelineActivity.REPLY_USER_PARAM);
+		replyTweet = (Tweet) getIntent().getSerializableExtra(TimelineActivity.REPLY_TWEET_PARAM);
 		tvTweetBtn = (TextView) findViewById(R.id.tvTweetBtn);
 		tvCharCount = (TextView) findViewById(R.id.tvCharCount);
 		tvUserName = (TextView) findViewById(R.id.tvComposeUserName);
 		tvUserScreenName = (TextView) findViewById(R.id.tvComposeUserScreenName);
-		ivUserProfileImage = (ImageView) findViewById(R.id.ivComposeUserProfileImage);
+		ivUserProfileImage = (RoundedImageView) findViewById(R.id.ivComposeUserProfileImage);
 		etStatus = (EditText) findViewById(R.id.etStatus);
 		setupViews();
 		setCharCountListener();
