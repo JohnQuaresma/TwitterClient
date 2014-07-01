@@ -26,5 +26,7 @@
     <string name="tweets_label">TWEETS</string>
     <string name="following_label">FOLLOWING</string>
     <string name="followers_label">FOLLOWERS</string>
+    <string name="hello">Hello.</string>
+    <string name="welcome_to_twitter">Welcome to Twitter.</string>
 
 </resources>

@@ -65,4 +65,63 @@
         android:textColor="#888888"
         android:textSize="11sp" />
 
+    <Button
+        android:id="@+id/btnReply"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/tvBody"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvBody"
+        android:background="@drawable/ic_reply"
+        android:minHeight="10dip"
+        android:minWidth="15dip" />
+
+    <Button
+        android:id="@+id/btnFavorite"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/btnRetweet"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@+id/btnRetweet"
+        android:background="@drawable/ic_favorite"
+        android:minHeight="10dip"
+        android:minWidth="15dip" />
+
+    <Button
+        android:id="@+id/btnRetweet"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBaseline="@+id/btnReply"
+        android:layout_alignBottom="@+id/btnReply"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@+id/btnReply"
+        android:background="@drawable/ic_retweet"
+        android:minHeight="10dip"
+        android:minWidth="15dip" />
+
+    <TextView
+        android:id="@+id/tvRetweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnRetweet"
+        android:layout_toRightOf="@+id/btnRetweet"
+        android:paddingLeft="3dp"
+        android:paddingTop="2dp"
+        android:text="100"
+        android:textColor="#aaaaaa"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tvFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnFavorite"
+        android:layout_toRightOf="@+id/btnFavorite"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        android:text="100"
+        android:textColor="#aaaaaa"
+        android:textSize="10sp" />
+
 </RelativeLayout>

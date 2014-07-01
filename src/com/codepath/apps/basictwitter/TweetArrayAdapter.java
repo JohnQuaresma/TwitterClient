@@ -21,6 +21,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 	
+	private String formatNumberWithSuffix(String numberStr) {
+		Long number = Long.parseLong(numberStr);
+		if (number == 0) {
+			return "";
+		}
+	    if (number < 1000) return "" + number;
+	    int exp = (int) (Math.log(number) / Math.log(1000));
+	    return String.format("%.1f%c", number / Math.pow(1000, exp), "KMB".charAt(exp-1));
+	}
+	
+	
 	private String getRelativeTimeAgo(String rawJsonDate) {
 		String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
 		SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
@@ -58,6 +69,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		TextView tvUserScreenName = (TextView) v.findViewById(R.id.tvUserScreenName);
 		TextView tvBody = (TextView) v.findViewById(R.id.tvBody);
 		TextView tvCreatedAt = (TextView) v.findViewById(R.id.tvCreatedAt);
+		TextView tvRetweets = (TextView) v.findViewById(R.id.tvRetweets);
+		TextView tvFavorites = (TextView) v.findViewById(R.id.tvFavorites);
 		ivProfileImage.setImageResource(android.R.color.transparent);
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
@@ -65,6 +78,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		tvUserScreenName.setText("@" + tweet.getUser().getScreenName());
 		tvBody.setText(tweet.getBody());
 		tvCreatedAt.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
+		tvRetweets.setText(formatNumberWithSuffix(tweet.getRetweetCount()));
+		tvFavorites.setText(formatNumberWithSuffix(tweet.getFavoriteCount()));
 		
 		ivProfileImage.setOnClickListener(new OnClickListener() {
 

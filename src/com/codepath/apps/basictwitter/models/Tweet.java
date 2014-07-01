@@ -12,6 +12,8 @@ public class Tweet implements Serializable {
 	private String body;
 	private long uid;
 	private String createdAt;
+	private String retweetCount;
+	private String favoriteCount;
 	private User user;
 
 	public String getBody() {
@@ -30,6 +32,14 @@ public class Tweet implements Serializable {
 		return user;
 	}
 	
+	public String getRetweetCount() {
+		return retweetCount;
+	}
+
+	public String getFavoriteCount() {
+		return favoriteCount;
+	}
+
 	@Override
 	public String toString() {
 		return this.body + " - " + this.user.getScreenName();
@@ -42,6 +52,8 @@ public class Tweet implements Serializable {
 			tweet.body = jsonObject.getString("text");
 			tweet.uid = jsonObject.getLong("id");
 			tweet.createdAt = jsonObject.getString("created_at");
+			tweet.retweetCount = jsonObject.getString("retweet_count");
+			tweet.favoriteCount = jsonObject.getString("favorite_count");
 			tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
 		} catch(JSONException e) {
 			e.printStackTrace();
